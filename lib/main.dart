@@ -53,7 +53,7 @@ class _MyHomePageState extends State<MyHomePage> {
       child: Scaffold(
         drawerEnableOpenDragGesture: true,
         endDrawerEnableOpenDragGesture: true,
-        // drawer: MyDrawer(),
+        drawer: MyDrawer(),
         backgroundColor: Colors.white70,
         appBar: AppBar(
           title: Text(
@@ -150,12 +150,12 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           tooltip: "ADD",
         ),
-        // body: TabBarView(children: [
-        //   FirstScreen(),
-        //   SecondScreenToast(),
-        //   ThirdScreen(),
-        //   FourthScreen(),
-        // ]),
+        body: TabBarView(children: [
+          FirstScreen(),
+          SecondScreenToast(),
+          ThirdScreen(),
+          FourthScreen(),
+        ]),
 
         // This trailing comma makes auto-formatting nicer for build methods.
       ),
