@@ -349,22 +349,28 @@ class _databaseCall2State extends State<databaseCall2> {
   }
 
   insertDatabase(Employee employee) async {
-    await database!
-        .rawInsert('insert into Employee( ) values(?,?,?,?)', [employee]);
+    database == null
+        ? connectDatabase()
+        : await database!
+            .rawInsert('insert into Employee( ) values(?,?,?,?)', [employee]);
     database!.query('Employee');
     setState(() {});
   }
 
   deleteDatabase(int id) async {
-    await database!.delete('Employee', where: 'id=?', whereArgs: [id]);
+    database == null
+        ? connectDatabase()
+        : await database!.delete('Employee', where: 'id=?', whereArgs: [id]);
     await database!.delete('Employee', where: 'id =?', whereArgs: [id]);
 
     setState(() {});
   }
 
   updateDatabase(int id) async {
-    await database!
-        .rawUpdate('Update Employee set value = ? where id=?', [id, id]);
+    database == null
+        ? connectDatabase()
+        : await database!
+            .rawUpdate('Update Employee set value = ? where id=?', [id, id]);
     await database!.update('Employee', {'name': 'Amit', 'value': 20, 'num': 20},
         where: 'id=?', whereArgs: [id]);
     setState(() {});
@@ -431,7 +437,19 @@ class _databaseCall2State extends State<databaseCall2> {
   }
 }
 
+class FirebaseCall extends StatefulWidget {
+  const FirebaseCall({Key? key}) : super(key: key);
 
+  @override
+  State<FirebaseCall> createState() => _FirebaseCallState();
+}
 
-
-
+class _FirebaseCallState extends State<FirebaseCall> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(),
+      body: Column(),
+    );
+  }
+}

@@ -132,6 +132,23 @@ class _FirstScreenState extends State<FirstScreen> {
               ),
             ),
           ),
+          InkWell(
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => FirebaseCall(),
+              ));
+            },
+            child: ListTile(
+              leading: Icon(
+                Icons.app_blocking_rounded,
+                size: 35,
+              ),
+              title: Text(
+                'Firebase',
+                textScaleFactor: 1.5,
+              ),
+            ),
+          ),
         ],
       ),
     );

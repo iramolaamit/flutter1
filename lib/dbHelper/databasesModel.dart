@@ -1,19 +1,19 @@
 class Employee {
-  late final int Id;
-  late final String Name;
-  late final int Age;
-  late final int Basic;
+  final int Id;
+  final String Name;
+  final int Age;
+  final int Basic;
   static final columns = ["Id", "Name", "Age", "Basic"];
+
   Employee(
       {required this.Id,
-        required this.Name,
-        required this.Age,
-        required this.Basic});
+      required this.Name,
+      required this.Age,
+      required this.Basic});
 
   factory Employee.fromMap(Map<String, dynamic> map) {
     return Employee(
-        Id: map['Id'],
-        Name: map['Name'],
+        Id: map['Id'], Name: map['Name'],
         Age: map['Age'],
         Basic: map['Basic']);
   }
