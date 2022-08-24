@@ -437,19 +437,3 @@ class _databaseCall2State extends State<databaseCall2> {
   }
 }
 
-class FirebaseCall extends StatefulWidget {
-  const FirebaseCall({Key? key}) : super(key: key);
-
-  @override
-  State<FirebaseCall> createState() => _FirebaseCallState();
-}
-
-class _FirebaseCallState extends State<FirebaseCall> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
-      body: Column(),
-    );
-  }
-}
