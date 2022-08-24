@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_lean/dbHelper/databasesModel.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -306,13 +307,15 @@ class databaseCall2 extends StatefulWidget {
 
 class _databaseCall2State extends State<databaseCall2> {
   List<dynamic>? itemList;
- Database?database;
+  Database? database;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     connectDatabase();
   }
+
   connectDatabase() async {
     var databasesPath = await getDatabasesPath();
     String path = '$databasesPath/demo.db';
@@ -343,8 +346,7 @@ class _databaseCall2State extends State<databaseCall2> {
         print(itemList);
       },
     );
-
-}
+  }
 
   insertDatabase(Employee employee) async {
     await database!
@@ -366,8 +368,9 @@ class _databaseCall2State extends State<databaseCall2> {
     await database!.update('Employee', {'name': 'Amit', 'value': 20, 'num': 20},
         where: 'id=?', whereArgs: [id]);
     setState(() {});
-    database!.close();
+    // database!.close();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -385,34 +388,45 @@ class _databaseCall2State extends State<databaseCall2> {
                   print(a.Age);
                   print(a.Basic);
                   insertDatabase(a);
-
                 },
               )
             ],
           ),
-          SizedBox(height: 12,
-          child: itemList!=null?CircularProgressIndicator():DataTable(
-              columns: [
-                DataColumn(label: Text("Id")),
-                DataColumn(label: Text("Name")),
-                DataColumn(label: Text("Age")),
-                DataColumn(label: Text("Basic")),
-                DataColumn(label: Text("Action")),
-
-              ],
-              rows:itemList!.map((map) => DataRow(cells: [
-                DataCell(Text(map['Id'])),
-                DataCell(Text(map['Name'])),
-                DataCell(Text(map['Age'])),
-                DataCell(Text(map['Basic'])),
-                // DataCell(Row(children: [IconButton(onPressed: onPressed, icon: Icon(insert))]),),
-              ]),
-              ).toList(),
-          )
-
-      ) ,
-    ],
-    ),
+          SizedBox(
+              height: 12,
+              child: itemList != null
+                  ? CircularProgressIndicator()
+                  : DataTable(
+                      sortColumnIndex: 0,
+                      sortAscending: true,
+                      showCheckboxColumn: true,
+                      columns: [
+                        DataColumn(label: Text("Id"), numeric: true),
+                        DataColumn(label: Text("Name")),
+                        DataColumn(label: Text("Age"), numeric: true),
+                        DataColumn(label: Text("Basic"), numeric: true),
+                        DataColumn(label: Text("Action")),
+                      ],
+                      rows: itemList!
+                          .map(
+                            (map) => DataRow(cells: [
+                              DataCell(Text(map['Id'])),
+                              DataCell(Text(map['Name']), showEditIcon: true),
+                              DataCell(Text(map['Age']), showEditIcon: true),
+                              DataCell(Text(map['Basic']), showEditIcon: true),
+                              DataCell(
+                                Row(children: [
+                                  IconButton(
+                                      onPressed: () {},
+                                      icon: Icon(CupertinoIcons.plus))
+                                ]),
+                              ),
+                            ]),
+                          )
+                          .toList(),
+                    )),
+        ],
+      ),
     );
   }
 }
