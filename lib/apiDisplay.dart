@@ -24,8 +24,8 @@ class _ApiCallState extends State<ApiCall> {
                 isTrue = false;
                 setState(() {});
                 await ApiManger().getApiData().then((value) {
-                  print(value['data']['rwaList'][1]['rwaName']);
-                  apiData =value['data']['rwalist'];
+                  print(value);
+                  apiData =value;
                   isTrue = true;
                   setState(() {});
                 });

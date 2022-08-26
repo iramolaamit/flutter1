@@ -1,10 +1,11 @@
-import 'package:flutter_lean/dbHelper/databasesModel.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:sqflite/sqflite.dart';
 
-import 'package:flutter/cupertino.dart';
+// import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as httpa;
-import 'package:flutter_lean/apiManger.dart';
+
+import 'mydb/databasesModel.dart';
 
 class LongLists extends StatefulWidget {
   const LongLists({Key? key}) : super(key: key);
@@ -37,7 +38,7 @@ class _LongListsState extends State<LongLists> {
         itemCount: products.length,
         itemBuilder: (context, index) {
           return ListTile(
-            title: Text('${products[index]}'),
+            title: Text(products[index]),
           );
         },
       ),
@@ -305,14 +306,16 @@ class databaseCall2 extends StatefulWidget {
 }
 
 class _databaseCall2State extends State<databaseCall2> {
-  List<dynamic>? itemList;
- Database?database;
+  List<dynamic>? itemList = [];
+  Database? database;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     connectDatabase();
   }
+
   connectDatabase() async {
     var databasesPath = await getDatabasesPath();
     String path = '$databasesPath/demo.db';
@@ -343,31 +346,37 @@ class _databaseCall2State extends State<databaseCall2> {
         print(itemList);
       },
     );
-
-}
+  }
 
   insertDatabase(Employee employee) async {
-    await database!
-        .rawInsert('insert into Employee( ) values(?,?,?,?)', [employee]);
+    database == null
+        ? connectDatabase()
+        : await database!
+            .rawInsert('insert into Employee( ) values(?,?,?,?)', [employee]);
     database!.query('Employee');
     setState(() {});
   }
 
   deleteDatabase(int id) async {
-    await database!.delete('Employee', where: 'id=?', whereArgs: [id]);
+    database == null
+        ? connectDatabase()
+        : await database!.delete('Employee', where: 'id=?', whereArgs: [id]);
     await database!.delete('Employee', where: 'id =?', whereArgs: [id]);
 
     setState(() {});
   }
 
   updateDatabase(int id) async {
-    await database!
-        .rawUpdate('Update Employee set value = ? where id=?', [id, id]);
+    database == null
+        ? connectDatabase()
+        : await database!
+            .rawUpdate('Update Employee set value = ? where id=?', [id, id]);
     await database!.update('Employee', {'name': 'Amit', 'value': 20, 'num': 20},
         where: 'id=?', whereArgs: [id]);
     setState(() {});
-    database!.close();
+    // database!.close();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -385,39 +394,47 @@ class _databaseCall2State extends State<databaseCall2> {
                   print(a.Age);
                   print(a.Basic);
                   insertDatabase(a);
-
                 },
               )
             ],
           ),
-          SizedBox(height: 12,
-          child: itemList!=null?CircularProgressIndicator():DataTable(
-              columns: [
-                DataColumn(label: Text("Id")),
-                DataColumn(label: Text("Name")),
-                DataColumn(label: Text("Age")),
-                DataColumn(label: Text("Basic")),
-                DataColumn(label: Text("Action")),
-
-              ],
-              rows:itemList!.map((map) => DataRow(cells: [
-                DataCell(Text(map['Id'])),
-                DataCell(Text(map['Name'])),
-                DataCell(Text(map['Age'])),
-                DataCell(Text(map['Basic'])),
-                // DataCell(Row(children: [IconButton(onPressed: onPressed, icon: Icon(insert))]),),
-              ]),
-              ).toList(),
-          )
-
-      ) ,
-    ],
-    ),
+          SizedBox(
+            height: 12,
+            child: itemList == null
+                ? Center(child: LinearProgressIndicator())
+                : DataTable(
+                    sortColumnIndex: 0,
+                    sortAscending: true,
+                    showCheckboxColumn: true,
+                    columns: [
+                      DataColumn(label: Text("Id"), numeric: true),
+                      DataColumn(label: Text("Name")),
+                      DataColumn(label: Text("Age"), numeric: true),
+                      DataColumn(label: Text("Basic"), numeric: true),
+                      DataColumn(label: Text("Action")),
+                    ],
+                    rows: itemList!
+                        .map(
+                          (map) => DataRow(cells: [
+                            DataCell(Text(map['Id'])),
+                            DataCell(Text(map['Name']), showEditIcon: true),
+                            DataCell(Text(map['Age']), showEditIcon: true),
+                            DataCell(Text(map['Basic']), showEditIcon: true),
+                            DataCell(
+                              Row(children: [
+                                IconButton(
+                                    onPressed: () {},
+                                    icon: Icon(CupertinoIcons.plus))
+                              ]),
+                            ),
+                          ]),
+                        )
+                        .toList(),
+                  ),
+          ),
+        ],
+      ),
     );
   }
 }
-
-
-
-
 

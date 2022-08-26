@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_lean/dbHelper/database_helper.dart';
 import 'package:sqflite/sqflite.dart';
 
-import 'databasesModel.dart';
+import '../mydb/databasesModel.dart';
+import 'database_helper.dart';
 
 class databaseCall extends StatefulWidget {
   const databaseCall({Key? key}) : super(key: key);
@@ -15,48 +15,48 @@ class databaseCall extends StatefulWidget {
 class _databaseCallState extends State<databaseCall> {
   List<dynamic>? itemList;
   Database? database;
+
   @override
-  // void initState() {
-  //   // TODO: implement initState
-  //   super.initState();
-  //   // connectDatabase();
-  // }
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    // connectDatabase();
+  }
 
-  // connectDatabase() async {
-  //   var databasesPath = await getDatabasesPath();
-  //   String path = '$databasesPath/demo.db';
-  //   database = await openDatabase(
-  //     path,
-  //     version: 1,
-  //     onCreate: (Database db, int version) async {
-  //       await db.execute(
-  //           'CREATE TABLE Employee(E_ID INTEGER PRIMARY KEY,E_Name Text,E_AGE INTEGER,E_Basic Integer)');
-  //       await db.execute(
-  //           "INSERT INTO Employee(E_ID,E_Name,E_AGE,E_Basic) VALUES (?,?,?,?)",
-  //           [1, 'Amit', 21, 10000]);
-  //
-  //       await db.execute(
-  //           "INSERT INTO Employee(E_ID,E_Name,E_AGE,E_Basic) VALUES (?,?,?,?)",
-  //           [2, 'Lovish', 19, 3000]);
-  //       await db.execute(
-  //           "INSERT INTO Employee(E_ID,E_Name,E_AGE,E_Basic) VALUES (?,?,?,?)",
-  //           [3, 'Deep', 18, 5000]);
-  //       await db.execute(
-  //           "INSERT INTO Employee(E_ID,E_Name,E_AGE,E_Basic) VALUES (?,?,?,?)",
-  //           [4, 'Karan', 17, 8000]);
-  //
-  //       await db.execute(
-  //           "INSERT INTO Employee(E_ID,E_Name,E_AGE,E_Basic) VALUES (?,?,?,?)",
-  //           [5, 'Divanshu', 18, 6000]);
-  //       itemList = await db.query('Employee');
-  //       print(itemList);
-  //     },
-  //   );
-  //
-  //   itemList = await database!.query('Employee');
-  //   print(itemList);
-  // }
+  connectDatabase() async {
+    var databasesPath = await getDatabasesPath();
+    String path = '$databasesPath/demo.db';
+    database = await openDatabase(
+      path,
+      version: 1,
+      onCreate: (Database db, int version) async {
+        await db.execute(
+            'CREATE TABLE Employee(E_ID INTEGER PRIMARY KEY,E_Name Text,E_AGE INTEGER,E_Basic Integer)');
+        await db.execute(
+            "INSERT INTO Employee(E_ID,E_Name,E_AGE,E_Basic) VALUES (?,?,?,?)",
+            [1, 'Amit', 21, 10000]);
 
+        await db.execute(
+            "INSERT INTO Employee(E_ID,E_Name,E_AGE,E_Basic) VALUES (?,?,?,?)",
+            [2, 'Lovish', 19, 3000]);
+        await db.execute(
+            "INSERT INTO Employee(E_ID,E_Name,E_AGE,E_Basic) VALUES (?,?,?,?)",
+            [3, 'Deep', 18, 5000]);
+        await db.execute(
+            "INSERT INTO Employee(E_ID,E_Name,E_AGE,E_Basic) VALUES (?,?,?,?)",
+            [4, 'Karan', 17, 8000]);
+
+        await db.execute(
+            "INSERT INTO Employee(E_ID,E_Name,E_AGE,E_Basic) VALUES (?,?,?,?)",
+            [5, 'Divanshu', 18, 6000]);
+        itemList = await db.query('Employee');
+        print(itemList);
+      },
+    );
+
+    itemList = await database!.query('Employee');
+    print(itemList);
+  }
 
   @override
   Widget build(BuildContext context) {

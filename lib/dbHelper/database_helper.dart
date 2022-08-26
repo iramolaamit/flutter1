@@ -67,8 +67,14 @@ $columnName Text not null,
     Database? db = await instance.database;
     return await db!.delete(_tableName, where: '$columnId=?', whereArgs: [id]);
   }
-  void closeDb()async{
-    Database ?db = await instance.database;
+
+  void closeDb() async {
+    Database? db = await instance.database;
     await db!.close();
+  }
+
+  void openDb() async {
+    Database? db = await instance.database;
+    print(await db!.isOpen);
   }
 }

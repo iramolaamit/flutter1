@@ -1,8 +1,13 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_lean/MyDrawer.dart';
-import 'package:flutter_lean/tabScreen.dart';
 
-void main() {
+import 'package:flutter/material.dart';
+import 'package:flutter_lean/tabScreen.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'MyDrawer.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 

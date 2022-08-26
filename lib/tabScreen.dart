@@ -5,6 +5,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'apiDisplay.dart';
 import 'bodyHome.dart';
 import 'dbHelper/databaseCall.dart';
+import 'firebaseCall.dart';
 import 'navigation.dart';
 
 class FirstScreen extends StatefulWidget {
@@ -128,6 +129,23 @@ class _FirstScreenState extends State<FirstScreen> {
               ),
               title: Text(
                 'Database',
+                textScaleFactor: 1.5,
+              ),
+            ),
+          ),
+          InkWell(
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => FirebaseCall(),
+              ));
+            },
+            child: ListTile(
+              leading: Icon(
+                Icons.app_blocking_rounded,
+                size: 35,
+              ),
+              title: Text(
+                'Firebase',
                 textScaleFactor: 1.5,
               ),
             ),
